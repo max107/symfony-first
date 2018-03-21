@@ -11,10 +11,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(PostRepository $postRepository)
     {
+        $posts = $postRepository->findAll();
+
+
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'posts' => $posts
         ]);
     }
 
@@ -43,5 +48,19 @@ class HomeController extends Controller
             'controller_name' => 'HomeController:addPost',
             'form' => $form->createView(),
         ]);
+    }
+
+    public function postSingle($pid, PostRepository $postRepository) {
+        $post = $postRepository->find($pid);
+
+        if (null === $post) {
+            throw $this->createNotFoundException('404 page not found!');
+        }
+
+        return $this->render('post/index.html.twig', [
+            'controller_name' => 'HomeController:postSingle',
+            'post' => $post
+        ]);
+
     }
 }

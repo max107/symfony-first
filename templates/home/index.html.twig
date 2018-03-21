@@ -16,5 +16,13 @@
         <li>Your controller at <code>src/Controller/HomeController.php</code></li>
         <li>Your template at <code>templates/home/index.html.twig</code></li>
     </ul>
+
+    {% for post in posts %}
+        <div>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.body }}</p>
+            <a href="/post/{{ post.id }}">More</a>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

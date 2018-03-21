@@ -7,5 +7,13 @@ home:
   controller: App\Controller\HomeController::index
 
 add:
-  path: add
+  path: /add
   controller: App\Controller\HomeController::addPost
+
+post:
+  path: /post/{pid}
+  controller: App\Controller\HomeController::postSingle
+  defaults:
+    pid: 1
+  requirements:
+    pid: '\d+'
