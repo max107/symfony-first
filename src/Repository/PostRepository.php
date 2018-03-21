@@ -47,4 +47,9 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAllOrderById(string $orderType)
+    {
+        return $this->createQueryBuilder('p')->orderBy('p.id', $orderType)->getQuery()->execute();
+    }
 }

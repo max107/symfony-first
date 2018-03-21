@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index(PostRepository $postRepository)
     {
-        $posts = $postRepository->findAll();
+        $posts = $postRepository->findAllOrderById('DESC');
 
 
 
@@ -23,7 +23,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function addPost(Request $request, PostRepository $postRepository) {
+    public function addPost(Request $request)
+    {
         $post = new Post();
 
         $form = $this->createForm(PostType::class, $post, [
@@ -50,7 +51,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function postSingle($pid, PostRepository $postRepository) {
+    public function postSingle($pid, PostRepository $postRepository)
+    {
         $post = $postRepository->find($pid);
 
         if (null === $post) {
