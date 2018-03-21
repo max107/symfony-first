@@ -5,3 +5,7 @@
 home:
   path: /
   controller: App\Controller\HomeController::index
+
+add:
+  path: add
+  controller: App\Controller\HomeController::addPost
