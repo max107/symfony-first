@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class HomeControllerTest extends TestCase
+
+class HomeControllerTest extends WebTestCase
 {
 
     public function testIndex()
     {
-        $this->assertTrue(true);
+        $client = $this->createClient();
+        $client->request('GET', '/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
     }
 
     public function testAddPost()
