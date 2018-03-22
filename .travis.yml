@@ -11,7 +11,7 @@ services:
 # Cache composer packages so "composer install" is faster
 cache:
   directories:
-    - $HOME/.composer/cache/files
+    - $HOME/var/cache
 
 # Matrix to test in every php version
 matrix:
@@ -36,9 +36,9 @@ before-install:
 install:
   - composer install
 #  - cp app/config/parameters.yml.dist app/config/parameters.yml
-  - php bin/console doctrine:database:create --env=bash
-  - php bin/console doctrine:migrations:migrate --env=bash
+  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:migrations:migrate --env=test
 
 # Run script
 script:
-  - phpunit
+  - ./vendor/bin/phpunit
