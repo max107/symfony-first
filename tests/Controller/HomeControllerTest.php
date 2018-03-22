@@ -2,42 +2,60 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
+use App\DataFixtures\PostDataFixture;
+use App\Entity\Post;
+use Doctrine\ORM\EntityManagerInterface;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class HomeControllerTest extends WebTestCase
 {
-    protected $client;
+    /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
 
     public function setUp()
     {
-        $this->client = static::createClient();
+        $this->em = $this->getContainer()
+            ->get('doctrine')
+            ->getManager();
+
+        $this->loadFixtures([
+            PostDataFixture::class,
+        ]);
+    }
+
+    public static function getPhpUnitXmlDir()
+    {
+        return dirname(__DIR__);
+    }
+
+    public function testInitial()
+    {
+        $posts = $this->em->getRepository(Post::class)->findAll();
+        $this->assertCount(1, $posts);
     }
 
     public function testIndex()
     {
-
-        $this->client->request('GET', '/');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $client = $this->makeClient();
+        $client->request('GET', '/');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
     }
 
     public function testAddPost()
     {
-//        $client = $this->createClient();
-        $this->client->request('GET', '/add');
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+        $client = $this->makeClient();
+        $client->request('GET', '/add');
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     public function testPostSingle()
     {
         $this->assertTrue(true);
-        $this->client->request('GET', '/post/');
-        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function tearDown()
-    {
-        $this->client = null;
+        $client = $this->makeClient();
+        $client->request('GET', '/post/');
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 }
