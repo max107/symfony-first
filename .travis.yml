@@ -7,10 +7,7 @@ php:
 matrix:
     fast_finish: true
 
-install: travis_retry composer install --no-interaction --prefer-source
+install: travis_retry composer install --no-interaction --prefer-dist
 
 script:
-    - vendor/bin/phpunit --coverage-clover=coverage.xml
-
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
+    - vendor/bin/phpunit
